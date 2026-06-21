@@ -1,573 +1,971 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rana Sen · Red Team Analyst</title>
-  <!-- Font Awesome 6 (free) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rana Sen | Red Team Analyst & Pentester Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS VARIABLES & THEME RESET --- */
+        :root {
+            --bg-dark: #05050a;
+            --bg-sidebar: #0a0a14;
+            --bg-card: #0e0e22;
+            --text-main: #ffffff;
+            --text-muted: #8fa0dd;
+            --cyber-cyan: #00f0ff;
+            --neon-crimson: #ff0055;
+            --matrix-green: #39ff14;
+            --font-main: 'Plus Jakarta Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
 
-    body {
-      background: #0b0e14;
-      color: #d4e0f0;
-      line-height: 1.6;
-      padding: 2rem 1.5rem;
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
 
-    .container {
-      max-width: 1300px;
-      margin: 0 auto;
-      background: #121820;
-      border-radius: 2.5rem;
-      padding: 2.5rem 2.8rem;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 0 1px #2a3548 inset;
-      backdrop-filter: blur(2px);
-      transition: all 0.2s ease;
-    }
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            display: flex;
+        }
 
-    .section-title {
-      font-size: 1.3rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: #9bf0cf;
-      border-bottom: 2px solid #2f4b4a;
-      padding-bottom: 0.6rem;
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
+        /* --- VERTICAL LEFT SIDEBAR --- */
+        aside {
+            width: 260px;
+            height: 100vh;
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid rgba(255, 0, 85, 0.1);
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 40px 24px;
+            z-index: 100;
+        }
 
-    .section-title i {
-      color: #56d9b0;
-      font-size: 1.6rem;
-      width: 2rem;
-    }
+        .logo {
+            font-family: var(--font-mono);
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            background: linear-gradient(45deg, var(--cyber-cyan), var(--neon-crimson));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-    /* ------ header / profile ------ */
-    .profile-grid {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 2.5rem 4rem;
-      margin-bottom: 3rem;
-      background: #0f1722;
-      padding: 1.8rem 2.2rem;
-      border-radius: 2rem;
-      border: 1px solid #2e405a;
-    }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
 
-    .profile-pic {
-      flex-shrink: 0;
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      background: #1b2a3a;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 3px solid #47d7a7;
-      box-shadow: 0 0 25px #1b7e5a, 0 0 60px rgba(71, 215, 167, 0.15);
-      overflow: hidden;
-      position: relative;
-    }
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+        }
 
-    .profile-pic img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
+        .nav-links a:hover, .nav-links li.active a {
+            color: var(--text-main);
+            text-shadow: 0 0 10px rgba(255, 0, 85, 0.4);
+        }
 
-    /* Fallback if image fails to load */
-    .profile-pic .fallback {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 4.2rem;
-      font-weight: 700;
-      color: #57dbb0;
-      background: #0f1f28;
-      letter-spacing: 2px;
-    }
+        .nav-links a:hover i, .nav-links li.active i {
+            color: var(--neon-crimson);
+        }
 
-    .profile-head {
-      flex: 1;
-    }
+        .download-btn {
+            border: 1px solid rgba(255, 0, 85, 0.3);
+            background: transparent;
+            color: var(--text-main);
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-family: var(--font-main);
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
 
-    .profile-head h1 {
-      font-size: 3.2rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      background: linear-gradient(135deg, #b3ffe0, #7ce0c0);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 0.25rem;
-    }
+        .download-btn:hover {
+            background: rgba(255, 0, 85, 0.1);
+            border-color: var(--neon-crimson);
+            box-shadow: 0 0 15px rgba(255, 0, 85, 0.3);
+        }
 
-    .profile-head .tagline {
-      font-size: 1.2rem;
-      color: #98b7d6;
-      background: #1e2b3c;
-      display: inline-block;
-      padding: 0.2rem 1.2rem;
-      border-radius: 40px;
-      border-left: 4px solid #28c994;
-      margin-top: 0.2rem;
-    }
+        .sidebar-footer {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
 
-    .contact-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.6rem 2.8rem;
-      margin-top: 1.2rem;
-      font-size: 0.95rem;
-    }
+        .social-icons {
+            display: flex;
+            gap: 18px;
+            font-size: 1.2rem;
+        }
 
-    .contact-links a {
-      color: #bfdaf5;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: 0.2s;
-      border-bottom: 1px solid transparent;
-    }
+        .social-icons a {
+            color: var(--text-muted);
+            transition: color 0.3s;
+        }
 
-    .contact-links a:hover {
-      color: #7ce0c0;
-      border-bottom-color: #47d7a7;
-    }
+        .social-icons a:hover {
+            color: var(--cyber-cyan);
+        }
 
-    .contact-links i {
-      width: 1.6rem;
-      color: #4cd4a8;
-    }
+        /* --- CONTAINER WORKSPACE --- */
+        main {
+            margin-left: 260px;
+            width: calc(100% - 260px);
+            min-height: 100vh;
+            padding: 40px 80px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
 
-    /* ------ two column layout ------ */
-    .two-col {
-      display: grid;
-      grid-template-columns: 1fr 1.1fr;
-      gap: 2.2rem 2.8rem;
-      margin-top: 1.8rem;
-    }
+        /* Top Right Ops Status */
+        .status-badge {
+            position: absolute;
+            top: 40px;
+            right: 80px;
+            background: rgba(57, 255, 20, 0.04);
+            border: 1px solid rgba(57, 255, 20, 0.2);
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 10;
+        }
 
-    @media (max-width: 820px) {
-      .two-col {
-        grid-template-columns: 1fr;
-        gap: 2.8rem;
-      }
-      .container {
-        padding: 1.8rem 1.2rem;
-      }
-      .profile-grid {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--matrix-green);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--matrix-green);
+            animation: beacon 2s infinite;
+        }
 
-    /* cards & boxes */
-    .info-card {
-      background: #141e2b;
-      padding: 1.5rem 1.8rem;
-      border-radius: 1.6rem;
-      border: 1px solid #293b4b;
-      margin-bottom: 2rem;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
-    }
+        /* Global Section Titles */
+        section {
+            padding: 80px 0 40px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
 
-    .info-card p, .info-card li {
-      font-size: 0.95rem;
-    }
+        .section-tag {
+            color: var(--cyber-cyan);
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 10px;
+        }
 
-    .skill-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem 0.8rem;
-      margin-top: 0.3rem;
-    }
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+        }
 
-    .skill-tag {
-      background: #1d3142;
-      padding: 0.25rem 1rem;
-      border-radius: 40px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: #c8e2f0;
-      border: 1px solid #37546b;
-      letter-spacing: 0.02em;
-    }
+        .section-title span {
+            color: var(--neon-crimson);
+        }
 
-    .skill-tag i {
-      margin-right: 6px;
-      color: #46d2a2;
-      font-size: 0.7rem;
-    }
+        /* --- HOME / HERO REGION --- */
+        #home {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 75vh;
+            padding-top: 40px;
+        }
 
-    .exp-item {
-      margin-bottom: 1.6rem;
-      border-left: 3px solid #2b8f72;
-      padding-left: 1.2rem;
-    }
+        .hero-text {
+            max-width: 58%;
+            animation: fadeInUp 1s ease forwards;
+        }
 
-    .exp-item h4 {
-      font-size: 1.1rem;
-      color: #b3f0db;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-    }
+        .subtitle {
+            color: var(--cyber-cyan);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            display: block;
+        }
 
-    .exp-item .meta {
-      font-size: 0.8rem;
-      color: #93adc9;
-      font-weight: 400;
-    }
+        .hero-text h1 {
+            font-size: 4.8rem;
+            line-height: 1.0;
+            font-weight: 800;
+            letter-spacing: -2px;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #ffffff 50%, #4f5b8c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-    .exp-item ul {
-      list-style: none;
-      margin-top: 0.4rem;
-    }
+        .hero-description {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-bottom: 35px;
+        }
 
-    .exp-item ul li {
-      padding: 0.2rem 0 0.2rem 1.4rem;
-      position: relative;
-    }
+        .hero-description span.highlight {
+            color: var(--neon-crimson);
+            font-weight: 600;
+        }
 
-    .exp-item ul li::before {
-      content: "›";
-      position: absolute;
-      left: 0;
-      color: #47d7a7;
-      font-weight: 700;
-    }
+        .cta-group {
+            display: flex;
+            gap: 20px;
+        }
 
-    .project-block {
-      background: #0e1a26;
-      border-radius: 1.2rem;
-      padding: 1rem 1.5rem;
-      margin-bottom: 1.2rem;
-      border-left: 6px solid #2d9d7a;
-    }
+        .btn {
+            padding: 14px 28px;
+            border-radius: 4px;
+            font-family: var(--font-main);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
 
-    .project-block strong {
-      color: #b3f0db;
-    }
+        .btn-primary {
+            background: transparent;
+            border: 1px solid var(--neon-crimson);
+            color: var(--text-main);
+        }
 
-    .cert-badge {
-      display: inline-block;
-      background: #1e2f3b;
-      padding: 0.2rem 1rem;
-      border-radius: 30px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.03em;
-      color: #afd9e8;
-      border: 1px solid #356b5a;
-      margin: 0.15rem 0.2rem;
-    }
+        .btn-primary:hover {
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.4), inset 0 0 10px rgba(255, 0, 85, 0.2);
+            text-shadow: 0 0 5px #fff;
+        }
 
-    .achievement-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem 1.2rem;
-      margin: 0.6rem 0;
-    }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-muted);
+        }
 
-    .achievement-list span {
-      background: #192b38;
-      padding: 0.2rem 1.2rem;
-      border-radius: 30px;
-      font-size: 0.8rem;
-      border: 1px solid #2d5b56;
-    }
+        .btn-secondary:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            color: var(--text-main);
+        }
 
-    .stats-line {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.8rem 2.4rem;
-      margin: 0.8rem 0;
-    }
+        .hero-image-container {
+            position: relative;
+            width: 350px;
+            height: 380px;
+            animation: fadeInRight 1s ease forwards;
+        }
 
-    .stats-line div {
-      background: #0d1b26;
-      padding: 0.2rem 1.2rem;
-      border-radius: 40px;
-      border: 1px solid #285545;
-      font-size: 0.9rem;
-    }
+        .image-frame {
+            width: 100%;
+            height: 100%;
+            border: 2px solid transparent;
+            background: linear-gradient(var(--bg-dark), var(--bg-dark)) padding-box,
+                        linear-gradient(135deg, var(--neon-crimson), var(--cyber-cyan)) border-box;
+            box-shadow: 0 0 30px rgba(255, 0, 85, 0.15);
+            overflow: hidden;
+            position: relative;
+            border-radius: 8px;
+        }
 
-    hr {
-      border: 0;
-      height: 1px;
-      background: linear-gradient(90deg, #1b4d42, #2b755b, #1b4d42);
-      margin: 1.8rem 0;
-    }
+        .image-frame .profile-avatar {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(10,10,20,1) 15%, rgba(10,10,20,0)), 
+                        url('https://github.com/ranasen-rat/ranasen/blob/main/profile1.jpg?raw=true') center/cover;
+        }
 
-    .footer-note {
-      text-align: right;
-      font-size: 0.75rem;
-      color: #4e6f82;
-      margin-top: 2rem;
-      border-top: 1px solid #20303f;
-      padding-top: 1.2rem;
-      letter-spacing: 0.06em;
-    }
+        .exp-badge {
+            position: absolute;
+            bottom: -15px;
+            right: -15px;
+            background: linear-gradient(135deg, var(--bg-card), #141432);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            padding: 14px 20px;
+            border-radius: 6px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            text-align: right;
+        }
 
-    .terminal-cursor {
-      display: inline-block;
-      width: 10px;
-      height: 1.2rem;
-      background: #4affb5;
-      vertical-align: text-bottom;
-      animation: blink 1.2s step-end infinite;
-    }
+        .exp-badge h3 {
+            color: var(--cyber-cyan);
+            font-family: var(--font-mono);
+            font-size: 1.4rem;
+            font-weight: 800;
+        }
 
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
-  </style>
+        .exp-badge p {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- PROFILE / OVERVIEW SECTION --- */
+        .profile-container {
+            display: grid;
+            grid-template-columns: 1.2fr 1.8fr;
+            gap: 60px;
+        }
+
+        .profile-bio p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .stat-card {
+            background-color: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            border-radius: 6px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 0, 85, 0.2);
+            box-shadow: 0 5px 20px rgba(255, 0, 85, 0.05);
+        }
+
+        .stat-icon {
+            font-size: 1.6rem;
+            color: var(--neon-crimson);
+            background: rgba(255, 0, 85, 0.05);
+            width: 52px;
+            height: 52px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-card:nth-child(2) .stat-icon { color: var(--cyber-cyan); background: rgba(0,240,255,0.05); }
+        .stat-card:nth-child(3) .stat-icon { color: var(--matrix-green); background: rgba(57,255,20,0.05); }
+        .stat-card:nth-child(4) .stat-icon { color: #e9c46a; background: rgba(233,196,106,0.05); }
+
+        .stat-info h4 {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .stat-info p {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-top: 2px;
+        }
+
+        /* --- PROJECTS SECTION --- */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 6px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 0;
+            background: var(--neon-crimson);
+            transition: height 0.3s ease;
+        }
+
+        .project-card:hover::before {
+            height: 100%;
+        }
+
+        .project-card:hover {
+            border-color: rgba(255, 0, 85, 0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .project-icon {
+            font-size: 2rem;
+            color: var(--cyber-cyan);
+        }
+
+        .project-links a {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-left: 12px;
+            transition: color 0.3s;
+        }
+
+        .project-links a:hover {
+            color: var(--neon-crimson);
+        }
+
+        .project-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .project-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .project-bullets {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .project-bullets li {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .project-bullets li i {
+            font-size: 0.7rem;
+            color: var(--neon-crimson);
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+        }
+
+        .project-tags span {
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--cyber-cyan);
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 240, 255, 0.1);
+        }
+
+        /* --- SKILLS MATRIX --- */
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .skills-category {
+            background: rgba(10, 10, 20, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            padding: 30px;
+            border-radius: 6px;
+        }
+
+        .skills-category h3 {
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            text-transform: uppercase;
+            color: var(--cyber-cyan);
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 240, 255, 0.1);
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill-badge {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            cursor: default;
+        }
+
+        .skill-badge:hover {
+            border-color: var(--neon-crimson);
+            box-shadow: 0 0 10px rgba(255, 0, 85, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* --- CONTACT CENTER --- */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1.2fr 1.8fr;
+            gap: 50px;
+        }
+
+        .contact-info-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .contact-item {
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .contact-icon-box {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 240, 255, 0.05);
+            border-radius: 4px;
+            color: var(--cyber-cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .contact-details h5 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        .contact-details p {
+            font-size: 0.95rem;
+            margin-top: 2px;
+            font-weight: 600;
+        }
+
+        .contact-form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        .form-group label {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .form-group input, .form-group textarea {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 14px;
+            border-radius: 4px;
+            color: var(--text-main);
+            font-family: var(--font-main);
+            font-size: 0.9rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--cyber-cyan);
+        }
+
+        .contact-form .btn {
+            grid-column: span 2;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes beacon {
+            0% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.6); }
+            70% { box-shadow: 0 0 0 8px rgba(57, 255, 20, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(25px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 1200px) {
+            #home { flex-direction: column; gap: 40px; align-items: flex-start; }
+            .hero-text { max-width: 100%; }
+            .profile-container, .contact-container { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            aside { display: none; }
+            main { margin-left: 0; width: 100%; padding: 40px 24px; }
+            .status-badge { position: relative; top: 0; right: 0; margin-bottom: 20px; display: inline-flex; }
+            .contact-form { grid-template-columns: 1fr; }
+            .form-group.full-width { grid-column: span 1; }
+            .contact-form .btn { grid-column: span 1; }
+            .hero-text h1 { font-size: 3.2rem; }
+        }
+    </style>
 </head>
 <body>
-<div class="container">
 
-  <!-- ========== PROFILE HEADER ========== -->
-  <div class="profile-grid">
-    <div class="profile-pic">
-      <!-- 
-        PROFILE PICTURE:
-        Replace the src below with your own image URL.
-        The fallback will show initials if the image fails to load.
-      -->
-      <img 
-        src="https://github.com/ranasen-rat/ranasen/blob/main/profile1.jpg?raw=true" 
-        alt="Rana Sen profile" 
-        onerror="this.style.display='none'; document.getElementById('fallback-avatar').style.display='flex';"
-      />
-      <div class="fallback" id="fallback-avatar" style="display:none;">
-        <span>RS</span>
-      </div>
-    </div>
-    <div class="profile-head">
-      <h1>Rana Sen <span style="font-size: 1.4rem; background: #0d1f2a; padding: 0 0.8rem; border-radius: 60px; color: #8fcbff; -webkit-text-fill-color: #8fcbff;">#RedTeam</span></h1>
-      <div class="tagline"><i class="fas fa-skull" style="margin-right: 8px; color: #47d7a7;"></i> Penetration Tester · Red Team Analyst · AppSec</div>
-      <div class="contact-links">
-        <a href="#"><i class="fas fa-phone-alt"></i> +88 01515281145</a>
-        <a href="#"><i class="fas fa-envelope"></i> rana.redteam@gmail.com</a>
-        <a href="#"><i class="fab fa-github"></i> github.com/ranasen-rat</a>
-        <a href="#"><i class="fab fa-linkedin-in"></i> linkedin.com/in/rana-sen-rat</a>
-        <a href="https://tryhackme.com/p/Rat1145xt" target="_blank"><i class="fas fa-user-secret"></i> tryhackme.com/p/Rat1145xt</a>
-        <a href="#"><i class="fas fa-map-pin"></i> Dhaka, Bangladesh</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========== TWO COLUMN LAYOUT ========== -->
-  <div class="two-col">
-
-    <!-- ===== LEFT COLUMN ===== -->
-    <div>
-
-      <!-- SUMMARY -->
-      <div class="info-card">
-        <div class="section-title"><i class="fas fa-terminal"></i> summary</div>
-        <p style="font-size: 0.98rem; color: #c7dcee;">Junior Red Team Analyst with hands-on experience in Active Directory Pentesting, Web Application & API Security, and adversary emulation. Skilled in vulnerability assessment, privilege escalation, and lateral movement aligned with MITRE ATT&CK. Offensive automation with Python/PowerShell.</p>
-        <div style="margin-top: 1rem; display: flex; gap: 0.8rem; flex-wrap: wrap;">
-          <span class="cert-badge"><i class="fas fa-shield-alt"></i> CAPen</span>
-          <span class="cert-badge"><i class="fas fa-certificate"></i> CEH (Practical)</span>
-          <span class="cert-badge"><i class="fas fa-user-secret"></i> CCEP</span>
-          <span class="cert-badge"><i class="fas fa-lock"></i> CRPO</span>
-        </div>
-      </div>
-
-      <!-- SKILLS -->
-      <div class="info-card">
-        <div class="section-title"><i class="fas fa-code"></i> technical skills</div>
-        <div style="margin-bottom: 1.2rem;">
-          <div style="font-weight: 500; color: #9ed7c2; font-size: 0.9rem;">Offensive Security</div>
-          <div class="skill-tags">
-            <span class="skill-tag"><i class="fas fa-globe"></i> Web App Pentest</span>
-            <span class="skill-tag"><i class="fas fa-cloud"></i> API Security</span>
-            <span class="skill-tag"><i class="fas fa-server"></i> AD Pentesting</span>
-            <span class="skill-tag"><i class="fas fa-network-wired"></i> Internal Network</span>
-            <span class="skill-tag"><i class="fas fa-search"></i> Vulnerability Assessment</span>
-            <span class="skill-tag"><i class="fas fa-file-code"></i> Source Code Review</span>
-          </div>
-        </div>
-        <div style="margin-bottom: 1.2rem;">
-          <div style="font-weight: 500; color: #9ed7c2; font-size: 0.9rem;">Red Team Tools</div>
-          <div class="skill-tags">
-            <span class="skill-tag">Burp Suite Pro</span>
-            <span class="skill-tag">Metasploit</span>
-            <span class="skill-tag">BloodHound</span>
-            <span class="skill-tag">Impacket</span>
-            <span class="skill-tag">CrackMapExec</span>
-            <span class="skill-tag">Mimikatz</span>
-            <span class="skill-tag">Responder</span>
-            <span class="skill-tag">Nmap</span>
-          </div>
-        </div>
-        <div>
-          <div style="font-weight: 500; color: #9ed7c2; font-size: 0.9rem;">Cloud & DevSecOps</div>
-          <div class="skill-tags">
-            <span class="skill-tag">AWS Security</span>
-            <span class="skill-tag">GitHub Actions</span>
-            <span class="skill-tag">Jenkins Security</span>
-          </div>
-          <div style="margin-top: 0.6rem;">
-            <span class="skill-tag"><i class="fab fa-python"></i> Python</span>
-            <span class="skill-tag"><i class="fas fa-terminal"></i> Bash</span>
-            <span class="skill-tag"><i class="fas fa-code"></i> PowerShell</span>
-            <span class="skill-tag"><i class="fas fa-microchip"></i> C</span>
-          </div>
-        </div>
-        <div style="margin-top: 0.8rem;">
-          <span class="skill-tag"><i class="fas fa-shield-virus"></i> Nessus</span>
-          <span class="skill-tag">OpenVAS</span>
-          <span class="skill-tag">Acunetix</span>
-          <span class="skill-tag">Splunk</span>
-          <span class="skill-tag">Wazuh</span>
-        </div>
-      </div>
-
-      <!-- CERTIFICATIONS & ACHIEVEMENTS -->
-      <div class="info-card">
-        <div class="section-title"><i class="fas fa-award"></i> certs & achievements</div>
-        <ul style="list-style: none; margin-bottom: 0.4rem;">
-          <li><i class="fas fa-check-circle" style="color: #47d7a7; width: 1.6rem;"></i> Certified AppSec Pentester (CAPen) – The SecOps Group (2025)</li>
-          <li><i class="fas fa-check-circle" style="color: #47d7a7; width: 1.6rem;"></i> Certified Ethical Hacker (Practical) – EC-Council (2024)</li>
-          <li><i class="fas fa-check-circle" style="color: #47d7a7; width: 1.6rem;"></i> Penetration Testing – Charles Sturt University (2024)</li>
-          <li><i class="fas fa-check-circle" style="color: #47d7a7; width: 1.6rem;"></i> Certified Cybersecurity Educator (CCEP) · CRPO</li>
+    <aside>
+        <div class="logo">RS.SEC_</div>
+        
+        <ul class="nav-links">
+            <li class="active"><a href="#home"><i class="fa-solid fa-terminal"></i> Home</a></li>
+            <li><a href="#profile"><i class="fa-solid fa-user-shield"></i> Profile</a></li>
+            <li><a href="#projects"><i class="fa-solid fa-folder-open"></i> Projects</a></li>
+            <li><a href="#skills"><i class="fa-solid fa-brain"></i> Skills</a></li>
+            <li><a href="#contact"><i class="fa-solid fa-key"></i> Contact</a></li>
         </ul>
-        <div class="stats-line">
-          <div><i class="fas fa-flask"></i> 140+ TryHackMe labs</div>
-          <div><i class="fas fa-bug"></i> 30+ VulnHub labs</div>
-          <div><i class="fas fa-code-branch"></i> Python automation</div>
+
+        <div class="sidebar-footer">
+            <button class="download-btn">
+                <i class="fa-solid fa-file-shield"></i> Download CV
+            </button>
+            <div class="social-icons">
+                <a href="https://github.com/ranasen-rat" target="_blank"><i class="fa-brands fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/rana-sen-rat/" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="https://tryhackme.com/p/Rat1145xt" target="_blank"><i class="fa-solid fa-shield-halved"></i></a>
+            </div>
         </div>
-        <div class="achievement-list">
-          <span><i class="fas fa-trophy"></i> AD attack simulations</span>
-          <span><i class="fas fa-shield"></i> OWASP Top 10 validated</span>
-          <span><i class="fas fa-file-alt"></i> Professional reporting</span>
-        </div>
-      </div>
-    </div>
+    </aside>
 
-    <!-- ===== RIGHT COLUMN ===== -->
-    <div>
-
-      <!-- WORK EXPERIENCE -->
-      <div class="info-card">
-        <div class="section-title"><i class="fas fa-briefcase"></i> experience</div>
-
-        <div class="exp-item">
-          <h4>ByteCapsule Ltd. <span class="meta">2026 – present</span></h4>
-          <div style="font-size: 0.85rem; color: #aac2dd;">Junior Red Team Analyst</div>
-          <ul>
-            <li>Red Team assessments & adversary emulation (MITRE ATT&CK)</li>
-            <li>Initial access, defense evasion, privilege escalation, credential harvesting</li>
-            <li>Active Directory enumeration, Kerberoasting, lateral movement</li>
-            <li>Living-off-the-land (LotL) techniques & security control validation</li>
-          </ul>
+    <main>
+        <div class="status-badge">
+            <div class="status-dot"></div>
+            Active Red Teaming engagement
         </div>
 
-        <div class="exp-item">
-          <h4>Daffodil Int. Professional Training <span class="meta">Nov 2025 – Apr 2026</span></h4>
-          <div style="font-size: 0.85rem; color: #aac2dd;">Cyber Security Instructor</div>
-          <ul>
-            <li>Ethical Hacking & Penetration Testing training</li>
-            <li>Hands-on labs: Web, Network, Active Directory Security</li>
-            <li>Developed practical exercises & mentoring for certifications</li>
-          </ul>
-        </div>
+        <section id="home" style="border-bottom: none;">
+            <div class="hero-text">
+                <span class="subtitle">Penetration Tester | Red Team Analyst</span>
+                <h1>Rana<br>Sen.</h1>
+                <p class="hero-description">
+                    Specialized in <span class="highlight"> Web Application andActive Directory Pentesting</span>, adversary emulations, and deploying offensive automation to discover critical infrastructure risks.
+                </p>
+                <div class="cta-group">
+                    <a href="#projects" class="btn btn-primary">Analyze Exploits &nbsp; <i class="fa-solid fa-code-fork"></i></a>
+                    <a href="#contact" class="btn btn-secondary">Contact Operator</a>
+                </div>
+            </div>
 
-        <div class="exp-item">
-          <h4>StarTech & Engineering Ltd. <span class="meta">Nov 2022 – present</span></h4>
-          <div style="font-size: 0.85rem; color: #aac2dd;">Executive – Network & Security</div>
-          <ul>
-            <li>Printer/Photocopy network setup, scan-to-mail, enterprise devices</li>
-            <li>Network operations, system maintenance, Windows security hardening</li>
-          </ul>
-        </div>
-      </div>
+            <div class="hero-image-container">
+                <div class="image-frame">
+                    <div class="profile-avatar"></div>
+                </div>
+                <div class="exp-badge">
+                    <h3>CAPen / CEH</h3>
+                    <p>Certified Professional</p>
+                </div>
+            </div>
+        </section>
 
-      <!-- SECURITY PROJECTS -->
-      <div class="info-card">
-        <div class="section-title"><i class="fas fa-project-diagram"></i> security projects</div>
-        <div class="project-block">
-          <strong><i class="fas fa-sitemap"></i> Active Directory Lab Assessment</strong>
-          <ul style="list-style: none; margin-top: 0.2rem;">
-            <li>• Internal network enumeration, Kerberoasting, AS-REP Roasting</li>
-            <li>• Attack path mapping with BloodHound, privilege escalation</li>
-          </ul>
-        </div>
-        <div class="project-block">
-          <strong><i class="fas fa-globe"></i> Web Application & API Security</strong>
-          <ul style="list-style: none; margin-top: 0.2rem;">
-            <li>• OWASP Top 10 validation, VAPI API testing</li>
-            <li>• Professional pentest reports with PoC & risk rating</li>
-          </ul>
-        </div>
-        <div class="project-block">
-          <strong><i class="fas fa-laptop-code"></i> TryHackMe & VulnHub</strong>
-          <ul style="list-style: none; margin-top: 0.2rem;">
-            <li>• Jr Penetration Tester, Web App Pentesting, AD Fundamentals</li>
-            <li>• DC1–DC9 + 25+ VulnHub labs, exploit development</li>
-          </ul>
-        </div>
-      </div>
+        <section id="profile">
+            <span class="section-tag">Overview</span>
+            <h2 class="section-title">Operational <span>Profile</span></h2>
+            <div class="profile-container">
+                <div class="profile-bio">
+                    <p>Junior Red Team Analyst experienced in Web App and API environments, weaponizing credential access, and performing horizontal/vertical privilege escalation techniques aligned with the MITRE ATT&CK matrix.</p>
+                    <p>Proven track record of delivering technical training labs alongside real-world security consulting engagements to implement robust network defense measures.</p>
+                </div>
 
-      <!-- EDUCATION & LANGUAGES -->
-      <div class="info-card">
-        <div class="section-title"><i class="fas fa-graduation-cap"></i> education</div>
-        <ul style="list-style: none;">
-          <li><i class="fas fa-university" style="width: 1.8rem; color: #47d7a7;"></i> B.Sc in CSE – Bangladesh University (2026) <span style="color: #7d9fc0; font-size: 0.8rem;">| Appeared</span></li>
-          <li><i class="fas fa-diploma" style="width: 1.8rem; color: #47d7a7;"></i> Post Grad Diploma in Cyber Security – Peoplenetech (2025) 
-          <li><i class="fas fa-microchip" style="width: 1.8rem; color: #47d7a7;"></i> Diploma in Electrical Engineering – PUBLIC Sci & Tech (2019) 
-        </ul>
-        <div style="margin-top: 1rem; display: flex; gap: 1.8rem; flex-wrap: wrap;">
-          <div><i class="fas fa-language"></i> Bengali: Native</div>
-          <div><i class="fas fa-language"></i> English: Professional</div>
-          <div><i class="fas fa-language"></i> Hindi: Conversational</div>
-        </div>
-        <div style="margin-top: 0.6rem; font-size: 0.9rem; color: #b7d0e8;"><i class="fas fa-user-tie"></i> Personal strengths: Professional attitude, quality commitment, team player</div>
-      </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-cubes"></i></div>
+                        <div class="stat-info">
+                            <h4>140+</h4>
+                            <p>TryHackMe Labs</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-bug"></i></div>
+                        <div class="stat-info">
+                            <h4>30+</h4>
+                            <p>VulnHub Targets</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                        <div class="stat-info">
+                            <h4>5+</h4>
+                            <p>Industry Certs</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-server"></i></div>
+                        <div class="stat-info">
+                            <h4>Active</h4>
+                            <p>AD Lab Simulations</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    </div>
-  </div>
+        <section id="projects">
+            <span class="section-tag">Deployments</span>
+            <h2 class="section-title">Security <span>Assessments</span></h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div>
+                        <div class="project-header">
+                            <div class="project-icon"><i class="fa-solid fa-network-wired"></i></div>
+                            <div class="project-links">
+                                <a href="#"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            </div>
+                        </div>
+                        <h3>Active Directory Lab Assessment</h3>
+                        <p>Simulated modern multi-tier enterprise network vectors to map and compromise domains.</p>
+                        <ul class="project-bullets">
+                            <li><i class="fa-solid fa-caret-right"></i> Kerberoasting & AS-REP Roasting vectors</li>
+                            <li><i class="fa-solid fa-caret-right"></i> Structural path mapping via BloodHound</li>
+                            <li><i class="fa-solid fa-caret-right"></i> Privilege escalation vector validation</li>
+                        </ul>
+                    </div>
+                    <div class="project-tags">
+                        <span>Impacket</span><span>BloodHound</span><span>Mimikatz</span>
+                    </div>
+                </div>
 
-  <!-- ========== FOOTER / REPORTING EXPERIENCE ========== -->
-  <hr>
-  <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">
-    <div style="display: flex; gap: 1.2rem; flex-wrap: wrap; font-size: 0.9rem;">
-      <span><i class="fas fa-file-signature" style="color: #47d7a7;"></i> Executive Summary</span>
-      <span><i class="fas fa-chart-pie" style="color: #47d7a7;"></i> Risk Rating & Impact</span>
-      <span><i class="fas fa-tools" style="color: #47d7a7;"></i> Remediation Recommendations</span>
-      <span><i class="fas fa-vial" style="color: #47d7a7;"></i> PoC Documentation</span>
-    </div>
-    <div style="color: #6a8ca5; font-size: 0.85rem;">
-      <i class="fas fa-flag"></i> MITRE ATT&CK aligned · Red Team mindset
-    </div>
-  </div>
+                <div class="project-card">
+                    <div>
+                        <div class="project-header">
+                            <div class="project-icon"><i class="fa-solid fa-laptop-code"></i></div>
+                            <div class="project-links">
+                                <a href="#"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            </div>
+                        </div>
+                        <h3>Web & API Security Testing</h3>
+                        <p>Targeted assessments evaluating applications against advanced vulnerability frameworks.</p>
+                        <ul class="project-bullets">
+                            <li><i class="fa-solid fa-caret-right"></i> OWASP Top 10 discovery and validation </li>
+                            <li><i class="fa-solid fa-caret-right"></i> REST API exploitation using VAPI frameworks</li>
+                            <li><i class="fa-solid fa-caret-right"></i> Executive and Technical PoC creation</li>
+                        </ul>
+                    </div>
+                    <div class="project-tags">
+                        <span>Burp Suite Pro</span><span>VAPI</span><span>Acunetix</span>
+                    </div>
+                </div>
 
-  <div class="footer-note">
-    <i class="fas fa-terminal"></i> Rana Sen · Red Team Analyst ·  <span class="terminal-cursor"></span>
-  </div>
+                <div class="project-card">
+                    <div>
+                        <div class="project-header">
+                            <div class="project-icon"><i class="fa-solid fa-robot"></i></div>
+                            <div class="project-links">
+                                <a href="#"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            </div>
+                        </div>
+                        <h3>Offensive Security Automation</h3>
+                        <p>Engineered automated scripts to enhance execution speed during scoping and scanning tasks.</p>
+                        <ul class="project-bullets">
+                            <li><i class="fa-solid fa-caret-right"></i> Custom asset reconnaissance tools</li>
+                            <li><i class="fa-solid fa-caret-right"></i> Automated parsing profiles for scan engines</li>
+                            <li><i class="fa-solid fa-caret-right"></i> Living-off-the-Land helper mechanisms</li>
+                        </ul>
+                    </div>
+                    <div class="project-tags">
+                        <span>Python</span><span>Bash</span><span>PowerShell</span>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-</div>
+        <section id="skills">
+            <span class="section-tag">Arsenal</span>
+            <h2 class="section-title">Technical <span>Skills</span></h2>
+            <div class="skills-container">
+                <div class="skills-category">
+                    <h3><i class="fa-solid fa-shield-halved"></i> Offensive Security</h3>
+                    <div class="skills-list">
+                        <div class="skill-badge">Active Directory Pentesting</div>
+                        <div class="skill-badge">Web App Pentesting</div>
+                        <div class="skill-badge">API Security Testing</div>
+                        <div class="skill-badge">Vulnerability Assessment</div>
+                        <div class="skill-badge">Source Code Review</div>
+                    </div>
+                </div>
+
+                <div class="skills-category">
+                    <h3><i class="fa-solid fa-screwdriver-wrench"></i> Red Team Tools</h3>
+                    <div class="skills-list">
+                        <div class="skill-badge">Burp Suite Pro</div>
+                        <div class="skill-badge">BloodHound</div>
+                        <div class="skill-badge">Impacket</div>
+                        <div class="skill-badge">Metasploit</div>
+                        <div class="skill-badge">Mimikatz</div>
+                        <div class="skill-badge">CrackMapExec</div>
+                    </div>
+                </div>
+
+                <div class="skills-category">
+                    <h3><i class="fa-solid fa-server"></i> SecOps & Platforms</h3>
+                    <div class="skills-list">
+                        <div class="skill-badge">Wazuh</div>
+                        <div class="skill-badge">Splunk</div>
+                        <div class="skill-badge">Nessus / OpenVAS</div>
+                        <div class="skill-badge">GitHub Actions</div>
+                        <div class="skill-badge">AWS Security Basics</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" style="border-bottom: none;">
+            <span class="section-tag">Signal</span>
+            <h2 class="section-title">Get In <span>Touch</span></h2>
+            <div class="contact-container">
+                <div class="contact-info-panel">
+                    <div class="contact-item">
+                        <div class="contact-icon-box"><i class="fa-solid fa-envelope"></i></div>
+                        <div class="contact-details">
+                            <h5>Secure Mail</h5>
+                            <p>rana.redteamer@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon-box"><i class="fa-solid fa-phone"></i></div>
+                        <div class="contact-details">
+                            <h5>Comms</h5>
+                            <p>+88 01515281145</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon-box"><i class="fa-solid fa-location-dot"></i></div>
+                        <div class="contact-details">
+                            <h5>Location</h5>
+                            <p>Dhaka, Bangladesh</p>
+                        </div>
+                    </div>
+                </div>
+
+                <form class="contact-form" onsubmit="event.preventDefault();">
+                    <div class="form-group">
+                        <label>Identity / Name</label>
+                        <input type="text" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Return Address / Email</label>
+                        <input type="email" placeholder="operator@net.com" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Subject</label>
+                        <input type="text" placeholder="Scoping / Engagement Inquiry" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Payload / Message</label>
+                        <textarea rows="5" placeholder="Transmission details..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Transmit Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const links = document.querySelectorAll('.nav-links li');
+        links.forEach(link => {
+            link.addEventListener('click', function() {
+                links.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
 </body>
 </html>
